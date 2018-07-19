@@ -29,9 +29,10 @@ from nltk.corpus import stopwords
 
 ## initial consts
 BASE_URL = 'http://api.dbpedia-spotlight.org/en/annotate?text={text}&confidence={confidence}&support={support}'
-Text = 'Obama born 1961 Honolulu, Hawaii, two years after territory admitted Union 50th state. Raised largely Hawaii, he also spent one year his childhood Washington. four years Indonesia. After graduating Columbia Universty 1983, he worked community organizer Chicago.'
-CONFIDENCE = '0.5'
-SUPPORT = '10'
+Text = """  The decision means essentially that every arm of Venezuela’s government is now under the thumb of President Nicolás Maduro, whose supporters have gone to great lengths to wrest authority from the National Assembly, which has been dominated by a slate of opposition parties since early 2016. The country’s top court, which is packed with Maduro loyalists, had already invalidated every major law passed by Congress. On Wednesday, as part of a decision involving the executive branch’s authority over oil ventures, the court declared that henceforth the judicial branch would execute all powers normally reserved for the legislature. The ruling provoked international condemnation and sent shock waves across the region. It also prompted a strikingly public rebuke from Luisa Ortega, a Maduro loyalist who serves as the nation’s chief prosecutor. She denounced the decision in a televised address during which she brandished a copy of Venezuela’s Constitution. """
+
+CONFIDENCE = '0.8'
+SUPPORT = '200'
 
 Text = Text.split()
 Text1 = [word for word in Text if word not in stopwords.words('english')]
@@ -46,9 +47,10 @@ sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 all_urls = []
 
 r = requests.get(url = REQUEST , headers=HEADERS)
+print (1)
 response = r.json()
 resources = response['Resources']
-
+print (2)
 for res in resources:
     all_urls.append(res['@URI'])
 
@@ -95,8 +97,9 @@ for i in item:
     j = j +1
 
 for i in mainlist:
-    print(i,':', mainlist[i][:])
-    print ('\n')
+    if mainlist[i][:]:
+        print(i,':', mainlist[i][:])
+        
     
     
   
