@@ -13,7 +13,7 @@ Created on Thu Jul 12 11:24:59 2018
 
 @author: mayur
 """
-
+## Adding this line to see whether my Git works - Pranav Shah
 from SPARQLWrapper import SPARQLWrapper, JSON
 import requests
 import urllib.parse
@@ -25,8 +25,8 @@ TEXT = 'Wayne Rooney'
 CONFIDENCE = '0.5'
 SUPPORT = '120'
 REQUEST = BASE_URL.format(
-    text=urllib.parse.quote_plus(TEXT), 
-    confidence=CONFIDENCE, 
+    text=urllib.parse.quote_plus(TEXT),
+    confidence=CONFIDENCE,
     support=SUPPORT
 )
 HEADERS = {'Accept': 'application/json'}
@@ -45,15 +45,15 @@ values = '(<{0}>)'.format('>) (<'.join(all_urls))
 sparql.setQuery(
     """PREFIX vrank:<http://purl.org/voc/vrank#>
        SELECT DISTINCT ?l ?rank
-       FROM <http://dbpedia.org> 
+       FROM <http://dbpedia.org>
        FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>
        WHERE {
-           VALUES (?s) {""" + values + 
+           VALUES (?s) {""" + values +
     """    }
        ?s rdf:type ?p .
        ?p rdfs:label ?l.
        FILTER (lang(?l) = 'en')
-} 
+}
     """)
 
 sparql.setReturnFormat(JSON)
