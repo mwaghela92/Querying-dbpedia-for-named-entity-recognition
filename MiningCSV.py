@@ -12,7 +12,7 @@ BASE_URL = 'http://api.dbpedia-spotlight.org/en/annotate?text={text}&confidence=
 CONFIDENCE = '0.5'
 SUPPORT = '50'
 #df['flag']
-y = list()
+
 for i in range(len(df)):
     #i=0
     Text = df.loc[i]['Article']
@@ -39,6 +39,7 @@ for i in range(len(df)):
         all_urls.append(res['@URI'])
     
     x = list()
+    y = list()
     
     for i in range(len(all_urls)):
         #i=0
@@ -50,7 +51,7 @@ for i in range(len(df)):
     
         sparql.setQuery(
         """PREFIX vrank:<http://purl.org/voc/vrank#>
-           SELECT DISTINCT ?l ?rank
+           SELECT DISTINCT ?l ?rank ?sname
            FROM <http://dbpedia.org> 
            FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>
            WHERE {
@@ -58,6 +59,8 @@ for i in range(len(df)):
         """    }
            ?s rdf:type ?p .
            ?p rdfs:label ?l.
+           ?s dct:subject ?sub .
+           ?sub rdfs:label ?sname.
            FILTER (lang(?l) = 'en')
         } limit 6
             """)
@@ -66,10 +69,15 @@ for i in range(len(df)):
         results = sparql.query().convert()
         
         x.append([])
+        y.append([])
         for result in results["results"]["bindings"]:
             x[i].append( result['l']['value'])
-        
-        
+            
+        for result in results["results"]["bindings"]:
+            y[i].append( result['sname']['value'])
+    print (x,y)
+   
+"""     
     item = list()
     for res in resources:
         item.append(res['@surfaceForm'])
@@ -92,4 +100,4 @@ for i in range(len(df)):
     
 df['Tags']= y
         
-    
+  """  
