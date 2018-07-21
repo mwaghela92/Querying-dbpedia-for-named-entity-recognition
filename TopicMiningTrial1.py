@@ -29,10 +29,16 @@ from nltk.corpus import stopwords
 
 ## initial consts
 BASE_URL = 'http://api.dbpedia-spotlight.org/en/annotate?text={text}&confidence={confidence}&support={support}'
-Text = """  The decision means essentially that every arm of Venezuela’s government is now under the thumb of President Nicolás Maduro, whose supporters have gone to great lengths to wrest authority from the National Assembly, which has been dominated by a slate of opposition parties since early 2016. The country’s top court, which is packed with Maduro loyalists, had already invalidated every major law passed by Congress. On Wednesday, as part of a decision involving the executive branch’s authority over oil ventures, the court declared that henceforth the judicial branch would execute all powers normally reserved for the legislature. The ruling provoked international condemnation and sent shock waves across the region. It also prompted a strikingly public rebuke from Luisa Ortega, a Maduro loyalist who serves as the nation’s chief prosecutor. She denounced the decision in a televised address during which she brandished a copy of Venezuela’s Constitution. """
+Text = """There are many important booklets at The Library of Senate.
+I saw Titanic movie first time in cinema hall.
+I saw the Eiffel Tower in scenery only.
+ To Kill a Mockingbird was my favorite book in high school.
+I drive an old Toyota. It’s not a luxurious car, but it works.
 
-CONFIDENCE = '0.8'
-SUPPORT = '200'
+"""
+
+CONFIDENCE = '0.9'
+SUPPORT = '50'
 
 Text = Text.split()
 Text1 = [word for word in Text if word not in stopwords.words('english')]
@@ -55,6 +61,7 @@ for res in resources:
     all_urls.append(res['@URI'])
 
 x = list()
+y = list()
 
 for i in range(len(all_urls)):
     #i=0
@@ -66,7 +73,7 @@ for i in range(len(all_urls)):
 
     sparql.setQuery(
     """PREFIX vrank:<http://purl.org/voc/vrank#>
-       SELECT DISTINCT ?l ?rank
+       SELECT DISTINCT ?l ?rank ?sname
        FROM <http://dbpedia.org> 
        FROM <http://people.aifb.kit.edu/ath/#DBpedia_PageRank>
        WHERE {
@@ -74,6 +81,8 @@ for i in range(len(all_urls)):
     """    }
        ?s rdf:type ?p .
        ?p rdfs:label ?l.
+        ?s dct:subject ?sub .
+           ?sub rdfs:label ?sname.
        FILTER (lang(?l) = 'en')
     } limit 6
         """)
@@ -82,13 +91,21 @@ for i in range(len(all_urls)):
     results = sparql.query().convert()
     
     x.append([])
+    y.append([])
     for result in results["results"]["bindings"]:
         x[i].append( result['l']['value'])
     
+    for result in results["results"]["bindings"]:
+        y[i].append( result['sname']['value'])
     
+#print (y)
+#print(x)
+        
 item = list()
 for res in resources:
     item.append(res['@surfaceForm'])
+    
+print(item)
 
 mainlist = {}
 j = 0
@@ -97,12 +114,7 @@ for i in item:
     j = j +1
 
 for i in mainlist:
-    if mainlist[i][:]:
-        print(i,':', mainlist[i][:])
-        
-    
-    
-  
-    
-    
-    
+    #if mainlist[i][:]:
+    print(i,':', mainlist[i][:])
+    print('\n')
+       
