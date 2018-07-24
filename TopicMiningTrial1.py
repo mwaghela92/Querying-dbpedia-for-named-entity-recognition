@@ -98,8 +98,8 @@ for i in range(len(all_urls)):
     for result in results["results"]["bindings"]:
         y[i].append( result['sname']['value'])
     
-#print (y)
-#print(x)
+print (y)
+print(x)
         
 item = list()
 for res in resources:
