@@ -82,8 +82,8 @@ len_text = len(Text)
 all_keywords = list()
 
 
-for i in range(0,len_text,5000):
-    TEXT = Text[i:i+5010]
+for i in range(0,len_text,1000):
+    TEXT = Text[i:i+1010]
 
     CONFIDENCE = '0.7'
     SUPPORT = '50'
