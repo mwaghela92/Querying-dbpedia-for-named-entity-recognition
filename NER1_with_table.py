@@ -24,7 +24,7 @@ entities = pd.DataFrame({'Entities' : ['Count'] , 'person' : [0],'place' : [0],
                                    'animal' : [0],'city' : [0], 'country' : [0],
                                    'organisation' : [0],'Food' : [0]})
 
-## initial consts
+## initial constants
 BASE_URL = 'http://api.dbpedia-spotlight.org/en/annotate?text={text}&confidence={confidence}&support={support}'
 Text = 
 CONFIDENCE = '0.2'
